@@ -5,10 +5,9 @@ from selenium.webdriver.chrome.options import Options
 import carObjectClass
 
 
-
 class TestMethod:
     def test(self):
-        driver = webdriver.Chrome("/Users/spencerbaldwin/Desktop/vscodeProjects/Part-Picker-GamePlanner/chromedriver_mac_arm64/chromedriver")
+        driver = webdriver.Chrome("/Users/spencerbaldwin/Desktop/vscodeProjects/Part-Picker-GamePlanner/Drivers/chromedriver_mac_arm64/chromedriver")
         driver.get("https://www.lkqpickyourpart.com/")
 
         #trying to keep chrome open
@@ -41,6 +40,7 @@ class SeleniumScraper:
     def __init__(self, driver):
         self.driver = driver
 
+    # Selenium script to access webpage
     def click_inventory_button(self):
         inventoryoption = self.driver.find_element(By.LINK_TEXT,"VIEW OUR INVENTORY")
         inventoryoption.click()
@@ -58,12 +58,12 @@ class SeleniumScraper:
     def populate_car_objects(self):
         cars_list = self.driver.find_element(By.XPATH, self.listofcars)
         # individual_car_list = cars_list.find_elements(By.XPATH, self.car_card_wrappers)
-        count = 0
+        # count = 0
         # print(individual_car_list)
         # carobjectclasslist = []
         #car_details = cars_list.find_elements(By.XPATH, self.car_detail_wrapper)
-        car_name = self.driver.find_elements(By.XPATH, self.car_name)
-        for element in car_name:
+        car_names = self.driver.find_elements(By.XPATH, self.car_name)
+        for element in car_names:
             print("check ", element.text)
         # for elements in individual_car_list:
         # for i, element in enumerate(car_details):
