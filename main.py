@@ -29,9 +29,15 @@ class SeleniumScraper:
     driver = ""
     listofcars = "//*[@id='pypvi_results']"
     car_card_wrappers = "//*[@class='pypvi_resultRow']"
-    car_name = "//*[@class='pypvi_ymm']"
-    car_color = "//*[@id='1223-30196']/div[1]/div[1]/b"
-
+    car_detail_wrapper = "//*[@class='pypvi_details text--small']"
+    car_name = ""
+    car_color = ""
+    car_vin = ""
+    car_section = ""
+    car_row = ""
+    car_space = ""
+    car_stocknum = ""
+    car_avalibilitydate = ""
     def __init__(self, driver):
         self.driver = driver
 
@@ -53,11 +59,17 @@ class SeleniumScraper:
         cars_list = self.driver.find_element(By.XPATH, self.listofcars)
         individual_car_list = cars_list.find_elements(By.XPATH, self.car_card_wrappers)
         count = 0
-        for elements in individual_car_list:
+        carobjectclasslist = []
+        for i,elements in enumerate(individual_car_list):
             print(elements)
+            carobjectclasslist.append(carObjectClass.carobject())
+            carobjectclasslist[i].InfoWrapper = elements.find_element(By.XPATH, self.car_detail_wrapper)
             if count == 9:
                 break
             count +=1
+
+        for element in carobjectclasslist:
+            print(element.InfoWrapper)
 
 
 run = TestMethod()
