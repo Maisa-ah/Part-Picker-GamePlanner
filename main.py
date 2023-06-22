@@ -30,7 +30,7 @@ class SeleniumScraper:
     listofcars = "//*[@id='pypvi_results']"
     car_card_wrappers = "//*[@class='pypvi_resultRow']"
     car_detail_wrapper = "//*[@class='pypvi_details text--small']"
-    car_name = ""
+    car_name = "//*[@class='pypvi_ymm']"
     car_color = ""
     car_vin = ""
     car_section = ""
@@ -57,19 +57,27 @@ class SeleniumScraper:
 
     def populate_car_objects(self):
         cars_list = self.driver.find_element(By.XPATH, self.listofcars)
-        individual_car_list = cars_list.find_elements(By.XPATH, self.car_card_wrappers)
+        # individual_car_list = cars_list.find_elements(By.XPATH, self.car_card_wrappers)
         count = 0
-        carobjectclasslist = []
-        for i,elements in enumerate(individual_car_list):
-            print(elements)
-            carobjectclasslist.append(carObjectClass.carobject())
-            carobjectclasslist[i].InfoWrapper = elements.find_element(By.XPATH, self.car_detail_wrapper)
-            if count == 9:
-                break
-            count +=1
+        # print(individual_car_list)
+        # carobjectclasslist = []
+        #car_details = cars_list.find_elements(By.XPATH, self.car_detail_wrapper)
+        car_name = self.driver.find_elements(By.XPATH, self.car_name)
+        for element in car_name:
+            print("check ", element.text)
+        # for elements in individual_car_list:
+        # for i, element in enumerate(car_details):
+            # print(i, ": ", element)
+            # print(elements.find_element(By.XPATH, self.car_detail_wrapper))
+            # carobjectclasslist.append(carObjectClass.carobject())
+            # print(carobjectclasslist[count])
+            # carobjectclasslist[i].InfoWrapper = elements.find_element(By.XPATH, self.car_detail_wrapper)
+            # if count == 9:
+            #     break
+            # count +=1
 
-        for element in carobjectclasslist:
-            print(element.InfoWrapper)
+        # for element in carobjectclasslist:
+        #     print(element.InfoWrapper)
 
 
 run = TestMethod()
