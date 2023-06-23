@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 import time
 from selenium.webdriver.chrome.options import Options
 import carObjectClass
+import csv
 
 
 class TestMethod:
@@ -12,13 +13,15 @@ class TestMethod:
 
         #trying to keep chrome open
         chrome_options = Options()
-        chrome_options.add_experimental_option("detach", True)
+        #chrome_options.add_experimental_option("detach", True)
 
         coding = SeleniumScraper(driver)
         coding.click_inventory_button()
         coding.click_drop_down_menu()
         coding.select_option_values()
-        coding.populate_car_objects()
+        listOfListCar = coding.getListOfCarObjects()
+        seperatedlist = coding.seperateyearmakemodel(listOfListCar)
+        coding.createcsv(seperatedlist)
         time.sleep(2)
         driver.quit()
 
@@ -55,30 +58,37 @@ class SeleniumScraper:
         opp.click()
         time.sleep(2)
 
-    def populate_car_objects(self):
-        cars_list = self.driver.find_element(By.XPATH, self.listofcars)
-        # individual_car_list = cars_list.find_elements(By.XPATH, self.car_card_wrappers)
-        # count = 0
-        # print(individual_car_list)
-        # carobjectclasslist = []
-        #car_details = cars_list.find_elements(By.XPATH, self.car_detail_wrapper)
-        car_names = self.driver.find_elements(By.XPATH, self.car_name)
-        for element in car_names:
-            print("check ", element.text)
-        # for elements in individual_car_list:
-        # for i, element in enumerate(car_details):
-            # print(i, ": ", element)
-            # print(elements.find_element(By.XPATH, self.car_detail_wrapper))
-            # carobjectclasslist.append(carObjectClass.carobject())
-            # print(carobjectclasslist[count])
-            # carobjectclasslist[i].InfoWrapper = elements.find_element(By.XPATH, self.car_detail_wrapper)
-            # if count == 9:
-            #     break
-            # count +=1
+    def getListOfCarObjects(self):
+        cars_list = self.driver.find_element(By.XPATH, self.car_card_wrappers)
+        car_name1 = cars_list.find_elements(By.XPATH, self.car_detail_wrapper)
+        carString = []
+        for element in car_name1:
+            for x in range(4):
+                carString.append(element.text.split('\n'))
+        return carString
+       
+    def seperateyearmakemodel(self, list):
+        cardeets = list
+        yearmakemodel = []
+        #cardeets is the list contains the list of each cars details
+        #element is the individual car details
+        for i,element in enumerate(cardeets):
+            yearmakemodel.append(element[0].split(' '))
+            element.remove(element[0])
+            for i,field in enumerate(yearmakemodel[i]):
+                element.insert(i,field)
+        return cardeets
+    
+    def createcsv(self, list):
 
-        # for element in carobjectclasslist:
-        #     print(element.InfoWrapper)
 
+        
+            
+        
+        
+        
+
+        
 
 run = TestMethod()
 run.test()
