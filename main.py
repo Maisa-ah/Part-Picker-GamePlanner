@@ -63,8 +63,7 @@ class SeleniumScraper:
         car_name1 = cars_list.find_elements(By.XPATH, self.car_detail_wrapper)
         carString = []
         for element in car_name1:
-            for x in range(4):
-                carString.append(element.text.split('\n'))
+            carString.append(element.text.split('\n'))
         return carString
        
     def seperateyearmakemodel(self, list):
@@ -77,11 +76,16 @@ class SeleniumScraper:
             element.remove(element[0])
             for i,field in enumerate(yearmakemodel[i]):
                 element.insert(i,field)
+        for element in cardeets:
+            print(element, "2")
         return cardeets
     
     def createcsv(self, list):
-
-
+        with open('carlist.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            field = ["year", "make", "model", "color", "vin", "Location", "stock num", "avalability date"]
+            for element in list:
+                writer.writerow(element)
         
             
         
